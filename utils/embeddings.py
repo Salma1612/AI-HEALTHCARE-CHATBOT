@@ -5,7 +5,7 @@ Generates vector embeddings using sentence-transformers.
 Uses 'all-MiniLM-L6-v2' — a lightweight, fast, high-quality model.
 """
 
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 import torch
 
 
