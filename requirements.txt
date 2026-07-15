@@ -6,6 +6,8 @@ faiss-cpu
 sentence-transformers
 transformers
 torch
+sentencepiece
+accelerate
 pypdf
 pdfplumber
 pandas
