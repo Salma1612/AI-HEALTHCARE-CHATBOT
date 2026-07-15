@@ -5,9 +5,9 @@ Splits long medical texts into overlapping chunks for embedding.
 Uses LangChain's RecursiveCharacterTextSplitter.
 """
 
+from typing import List, Dict
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-from typing import List, Dict
 
 
 def split_documents(
@@ -19,18 +19,18 @@ def split_documents(
     Split loaded PDF documents into overlapping text chunks.
 
     Args:
-        docs        : List of dicts from pdf_loader (with 'text' and 'source' keys)
-        chunk_size  : Number of characters per chunk (500, 800, or 1000 recommended)
+        docs: List of dicts from pdf_loader (with 'text' and 'source' keys)
+        chunk_size: Number of characters per chunk
         chunk_overlap: Characters shared between consecutive chunks
 
     Returns:
-        List of LangChain Document objects with page_content + metadata
+        List of LangChain Document objects
     """
+
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
         length_function=len,
-        # These separators help preserve paragraph structure
         separators=["\n\n", "\n", ". ", "! ", "? ", " ", ""]
     )
 
@@ -38,36 +38,38 @@ def split_documents(
 
     for doc in docs:
         raw_text = doc.get("text", "").strip()
-        source   = doc.get("source", "unknown.pdf")
+        source = doc.get("source", "unknown.pdf")
 
         if not raw_text:
             continue
 
-        # Split into chunks
         chunks = splitter.split_text(raw_text)
 
         for i, chunk in enumerate(chunks):
-            langchain_doc = Document(
-                page_content=chunk,
-                metadata={
-                    "source": source,
-                    "chunk_id": i,
-                    "chunk_total": len(chunks)
-                }
+            all_chunks.append(
+                Document(
+                    page_content=chunk,
+                    metadata={
+                        "source": source,
+                        "chunk_id": i,
+                        "chunk_total": len(chunks)
+                    }
+                )
             )
-            all_chunks.append(langchain_doc)
 
-    print(f" Text splitting complete: {len(all_chunks)} chunks created "
-          f"(chunk_size={chunk_size}, overlap={chunk_overlap})")
+    print(
+        f"Text splitting complete: {len(all_chunks)} chunks created "
+        f"(chunk_size={chunk_size}, overlap={chunk_overlap})"
+    )
 
     return all_chunks
 
 
 def get_chunk_stats(chunks: List[Document]) -> Dict:
     """
-    Return basic stats about the chunk distribution.
-    Useful for evaluation and reporting.
+    Return basic statistics about the chunk distribution.
     """
+
     lengths = [len(c.page_content) for c in chunks]
     sources = list(set(c.metadata.get("source", "?") for c in chunks))
 
@@ -77,5 +79,5 @@ def get_chunk_stats(chunks: List[Document]) -> Dict:
         "min_chunk_len": min(lengths) if lengths else 0,
         "max_chunk_len": max(lengths) if lengths else 0,
         "sources": sources,
-        "source_count": len(sources)
+        "source_count": len(sources),
     }
