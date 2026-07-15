@@ -1,0 +1,14 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+evaluation/plots/
+evaluation/evaluation_results.csv
+.DS_Store
+*.log
+
+# Keep faiss_index/ tracked intentionally so the deployed app doesn't
+# have to rebuild it from PDFs on every boot. If you'd rather rebuild
+# on deploy, uncomment the next line:
+# faiss_index/
