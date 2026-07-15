@@ -5,8 +5,8 @@ Splits long medical texts into overlapping chunks for embedding.
 Uses LangChain's RecursiveCharacterTextSplitter.
 """
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.schema import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
 from typing import List, Dict
 
 
