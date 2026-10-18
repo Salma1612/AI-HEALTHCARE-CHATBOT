@@ -1,6 +1,7 @@
 # 🏥 AI Medical Chatbot using RAG (Retrieval-Augmented Generation)
 
-> **Student Name** SK Salma (23BCE20344) 
+> **Student Name** SK Salma (23BCE20344)
+> **Student Name** Syed Muskan (23BCE7305) 
 > **Guide:** Prof. E. Sreenivasa Reddy, VIT-AP University
 
 ---
